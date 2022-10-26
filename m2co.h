@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <string.h>
 
 void hextorgb(const char* hex, int* r, int*g, int* b)
 {
@@ -28,6 +29,29 @@ void setColor(int r, int g, int b)
 inline void endColor()
 {
     printf("\x1b[0m");
+}
+
+inline void ColorPrint(const char* text, int r, int g, int b)
+{
+    setColor(r, g, b);
+    printf(text);
+    endColor();
+}
+
+void GradientPrint(const char* str, int sr, int sg, int sb, int tr, int tg, int tb)
+{
+    float lenText = (float)strlen(str);
+    float dr = static_cast<float>(tr - sr) / lenText;
+    float dg = static_cast<float>(tg - sg) / lenText;
+    float db = static_cast<float>(tb - sb) / lenText;
+
+    for(int i = 0; i < (int)lenText; i++)
+    {
+        setColor(sr + (dr * i), sg + (dg * i), sb + (db * i));
+        putchar(str[i]);
+    }
+    putchar('\n');
+    endColor();
 }
 
 #ifdef __cplusplus
