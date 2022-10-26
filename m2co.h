@@ -38,6 +38,21 @@ inline void ColorPrint(const char* text, int r, int g, int b)
     endColor();
 }
 
+#ifdef __cplusplus
+inline void ColorPrint(const char* text, const char* hex)
+#else
+inline void ColorPrintHex(const char* text, const char* hex)
+#endif
+{
+    #ifdef __cplusplus
+    setColor(hex);
+    #else
+    setColorHex(hex);
+    #endif
+    printf(text);
+    endColor();
+}
+
 void GradientPrint(const char* str, int sr, int sg, int sb, int tr, int tg, int tb)
 {
     float lenText = (float)strlen(str);
@@ -50,7 +65,6 @@ void GradientPrint(const char* str, int sr, int sg, int sb, int tr, int tg, int 
         setColor(sr + (dr * i), sg + (dg * i), sb + (db * i));
         putchar(str[i]);
     }
-    putchar('\n');
     endColor();
 }
 
@@ -74,7 +88,6 @@ void GradientPrint(const std::string& str, int sr, int sg, int sb, int tr, int t
         setColor(sr + (dr * i), sg + (dg * i), sb + (db * i));
         putchar(str[i]);
     }
-    putchar('\n');
     endColor();
 }
 
@@ -94,12 +107,11 @@ void GradientPrint(const std::string& str, const char* start, const char* end)
         setColor(sr + (dr * i), sg + (dg * i), sb + (db * i));
         putchar(str[i]);
     }
-    putchar('\n');
     endColor();
 }
 
-template <typename T>
-void GradientPrint(const std::string& str, T s, T t)
+template <typename T, typename T2>
+void GradientPrint(const std::string& str, T s, T2 t)
 {
     float lenText = str.length();
 
@@ -112,7 +124,6 @@ void GradientPrint(const std::string& str, T s, T t)
         setColor(s.r + (dr * i), s.g + (dg * i), s.b + (db * i));
         putchar(str[i]);
     }
-    putchar('\n');
     endColor();
 }
 
